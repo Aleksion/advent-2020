@@ -3,6 +3,7 @@
              clojure.java.io :as io
              ]))
 
+
 (def file "src/day/1/input.txt")
 
 
@@ -12,30 +13,52 @@
 
 
 
-(defn find-multiple [sum-value values]
-  (let [match
-        (first
-          (filter
-            #(contains? values (- sum-value %))
-            values))
-        ]
-    (if (= match nil)
+(defn find-sum-value
+  "Find the first value that, when multiplied with another adds up to the total"
+  [total values]
+  (some #(and (contains? values (- total %))  %)
+        values)
+  )
+
+
+(defn find-sum-match
+  "Return the first two values that adds up to the total"
+  [total values]
+  (let [x (find-sum-value total values)]
+    (if (= nil x)
       nil
-      (* match  (- sum-value match)))
+      [x (- total x)])
     ))
 
+(defn find-sum-recur
+  "Recursively find the values  that adds up to the provided total"
+  [total values times]
+  (if (<= times 2)
+    (find-sum-match total values)
+    (some (fn [vs]
+            (let [
+                  new-total (- total vs)
+                  v (find-sum-value new-total values)
+                  ]
+              (if (= v nil)
+                false
+                (let [res (conj (find-sum-recur new-total values (- times 1)) vs)]
+                  (if (= (count res) times)
+                    res
+                    false)))
+              )
+            ) values)
+
+    )
+  )
+
+
+(defn find-multiple
+  [total  values times]
+  (reduce #(* %1 %2) (find-sum-recur total values times))
+  )
 
 (comment
-  (find-multiple 2020 (get-set file))
-
-  (first (filter (fn [v]
-                   (let [match (find-multiple (- 2020 v) (get-set file))]
-                     (do
-                       (println v)
-                       (if (= nil match)
-                         false
-
-                         (= 2020 (+ v match)))))
-                   ) (get-set file))
-         )
+  (println  (find-multiple 2020 (get-set file) 3))
+  (println  (find-multiple 2020 (get-set file) 2))
   )
