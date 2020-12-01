@@ -32,8 +32,8 @@
 
 (defn find-sum-recur
   "Recursively find the values  that adds up to the provided total"
-  [total values times]
-  (if (<= times 2)
+  [total values n]
+  (if (<= n 2)
     (find-sum-match total values)
     (some (fn [vs]
             (let [
@@ -42,8 +42,8 @@
                   ]
               (if (= v nil)
                 false
-                (let [res (conj (find-sum-recur new-total values (- times 1)) vs)]
-                  (if (= (count res) times)
+                (let [res (conj (find-sum-recur new-total values (- n 1)) vs)]
+                  (if (= (count res) n)
                     res
                     false)))
               )
@@ -54,8 +54,8 @@
 
 
 (defn find-multiple
-  [total  values times]
-  (reduce #(* %1 %2) (find-sum-recur total values times))
+  [total  values n]
+  (reduce #(* %1 %2) (find-sum-recur total values n))
   )
 
 (comment
