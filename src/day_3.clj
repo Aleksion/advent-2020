@@ -23,26 +23,18 @@
 
 
 ;; Test Solutions
-(defn get-pos
-  "Will get the position in a repeating row given a total row length and a position"
-  [total pos]
-  (if (>= pos total)
-    (mod pos total)
-    pos))
-
-
 (defn has-tree?
   "Will check for trees on the provided position and row"
   [row pos]
   (let [total (count row)
-        new-pos (get-pos total  pos)]
+        new-pos (if (>= pos total)
+                  (mod pos total)
+                  pos)]
     (= "#"  (subs row new-pos (inc new-pos)))))
-
-
 
 (defn n-of-trees-on-path
   "Returns the number of trees on a given grid 'g'
-  given a traversing path 'p"
+  given a traversing path 'P"
   [g p]
   (let [[x-steps y-steps] p
         rows (str/split-lines g)]
