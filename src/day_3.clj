@@ -13,14 +13,12 @@
   [f]
   (->>
     (io/resource f)
-    (slurp)
-    ))
+    (slurp)))
 
 (def test-1-path [3 1])
 (def test-2-paths
   "Slope paths"
-  [[1 1] [3 1] [5 1] [7 1] [1 2]]
-  )
+  [[1 1] [3 1] [5 1] [7 1] [1 2]])
 
 
 
@@ -30,21 +28,15 @@
   [total pos]
   (if (>= pos total)
     (mod pos total)
-    pos
-    )
-  )
+    pos))
 
 
 (defn has-tree?
   "Will check for trees on the provided position and row"
   [row pos]
-  (let [
-        total (count row)
-        new-pos (get-pos total  pos)
-        ]
-    (= "#"  (subs row new-pos (inc new-pos)))
-    )
-  )
+  (let [total (count row)
+        new-pos (get-pos total  pos)]
+    (= "#"  (subs row new-pos (inc new-pos)))))
 
 
 
@@ -52,23 +44,15 @@
   "Returns the number of trees on a given grid 'g'
   given a traversing path 'p"
   [g p]
-  (let [
-        [x-steps y-steps] p
-        rows (str/split-lines g)
-        ]
-
+  (let [[x-steps y-steps] p
+        rows (str/split-lines g)]
     (loop [x 0 y 0 trees 0]
       (if (>= y (count rows))
         trees
-
         (recur (+ x x-steps) (+ y y-steps)
                (if (has-tree? (nth rows y) x)
                  (inc trees)
-                 trees
-                 )))
-      )
-    )
-  )
+                 trees))))))
 
 (defn check-trees-on-slopes
   "Returns the product of the count of trees on each path in the vector v-p
@@ -76,11 +60,9 @@
   [g v-p]
   (->>
     (map #(n-of-trees-on-path g %) v-p)
-    (apply *)
-    ))
+    (apply *)))
 
 
 (comment
   (n-of-trees-on-path (load-input file) test-1-path)
-  (check-trees-on-slopes (load-input file) test-2-paths)
-  )
+  (println  (check-trees-on-slopes (load-input file) test-2-paths)))
