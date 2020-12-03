@@ -1,4 +1,4 @@
-(ns day.2.main
+(ns day-2
   (:require
    [clojure.java.io :as io]
    [clojure.string :as str]
@@ -68,10 +68,9 @@
         xv (subs (:pwd m) (dec (:x m)) (:x m))
         yv (subs (:pwd m) (dec (:y m)) (:y m))
         ]
-                                         ; Couldn't get it to match on v in both places
+                                        ; Couldn't get it to match on v in both places
                                         ; so I had to split up v into two local bindings (v1 and v2)
     (match [xv yv]
-
       [v1 v2] false
       [v1 _] true
       [_ v2] true
