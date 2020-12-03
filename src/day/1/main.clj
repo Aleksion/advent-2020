@@ -4,12 +4,19 @@
              ]))
 
 
-(def file "src/day/1/input.txt")
+(def file "day_1_input.txt")
 
 
 (defn get-set [filename]
-  (with-open [rdr (io/reader filename)]
-    (doall (set (map #(Integer/parseInt %) (line-seq rdr))))))
+  (->>
+    (io/resource file)
+    (io/reader)
+    (line-seq)
+    (map #(Integer/parseInt %))
+    (set)
+    (doall)
+    ))
+
 
 
 
