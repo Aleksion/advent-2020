@@ -4,8 +4,6 @@
             [clojure.set :as set]))
 
 
-
-
 ;;
 ;; Inputs
 ;;
@@ -13,8 +11,7 @@
   []
   (->
     (io/resource "day_6_input.txt")
-    (slurp)
-    ))
+    (slurp)))
 
 ;;
 ;; Solvers
@@ -25,9 +22,7 @@
   (->
     (str/replace l "\n" "")
     (distinct)
-    count
-    )
-  )
+    count))
 
 (defn group->every-count
   "Will count the number of positive responses for a line"
@@ -36,9 +31,7 @@
     (str/split-lines l)
     (map #(set (distinct %)))
     (apply set/intersection)
-    count
-    )
-  )
+    count))
 
 (defn sum-responses-any
   "Will sum the counts of answers where anyone in each group answered yes"
@@ -58,10 +51,9 @@
     (reduce + 0)))
 
 
-
+;; Comments
 (comment
   (println "Ready!")
   (str/split (load-input) #"\n\n")
   (sum-responses-any (load-input))
-  (sum-responses-every (load-input))
-  )
+  (sum-responses-every (load-input)))
