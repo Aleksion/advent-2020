@@ -41,6 +41,24 @@
 
 
 (defn solve-2
+  "We're solving this by walking backwards through the adapters.
+  Starting with 1 at the tail of the list
+  we'll assign the sum of the values 1, 2 and 3 distance
+  away from our current number.
+  Eg: Walking backwards from 1 at 19 {
+  0 8
+  1 8
+  4 8
+  5 4
+  6 2
+  7 2
+  10 2
+  11 1
+  12 1
+  15 1
+  16 1
+  19 1}
+  furthest number (if 19 is our last number  eg. 15-->19)"
   [adapters]
   ;; Reverse the adapters and walk back
   (let [adapters (vec  (reverse  adapters))]
@@ -50,12 +68,12 @@
            results {(first adapters) 1}]
       (cond
         (>= i (count adapters)) (results 0)
-        :else (recur (inc i) (let [paths (adapters i)]
+        :else (recur (inc i) (let [v (adapters i)]
                                (assoc results
-                                      paths
-                                      (apply + [(get results (+ paths 1) 0)
-                                                (get results (+ paths 2) 0)
-                                                (get results (+ paths 3) 0)]))))))))
+                                      v
+                                      (apply + [(get results (+ v 1) 0)
+                                                (get results (+ v 2) 0)
+                                                (get results (+ v 3) 0)]))))))))
 
 
 (comment
