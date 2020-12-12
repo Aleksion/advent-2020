@@ -68,9 +68,13 @@
   [{:keys [x y]} radii]
   (case radii
     0 {:x x :y y}
-    90 {:x y :y x}
+    90 {:x y :y (- x)}
     180 {:x (- x) :y (- y) }
-    270 {:x (- y) :y (- x)}))
+    270 {:x (- y) :y x}
+
+    -90 {:x (- y) :y x}
+    -180 {:x (- x) :y (- y) }
+    -270 {:x y :y (- x)}))
 
 (defn solve-2
   [input]
@@ -107,5 +111,9 @@
 
   ;; Solve 2 test
   (solve-2 (load-input test-file))
+
+  ;; Solve 2 input
+  (solve-2 (load-input (io/resource "day_12_input.txt")))
+
 
   )
